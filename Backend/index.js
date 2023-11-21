@@ -4,9 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 import authRouter from "./routes/AuthRoute.js";
 import userRouter from "./routes/UserRoute.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 const PORT = 3579;
 
 // middleware of app
