@@ -42,9 +42,9 @@ const Profile = () => {
         console.log(error, fileUploadError);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-          setFormData({ ...formData, avatar: downloadUrl });
-        });
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) =>
+          setFormData({ ...formData, avatar: downloadUrl })
+        );
       }
     );
   };
