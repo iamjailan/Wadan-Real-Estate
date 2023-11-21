@@ -1,8 +1,9 @@
 import express from "express";
-import { signIn } from "../controllers/User.js";
+import { test, updateUser } from "../controllers/UserInfo.js";
 
 const userRouter = express.Router();
 
-userRouter.route("/sign-in").post(signIn);
+userRouter.route("/test").post(test);
+userRouter.post("/update/:id", updateUser);
 
 export default userRouter;
