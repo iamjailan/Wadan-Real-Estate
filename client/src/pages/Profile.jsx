@@ -8,6 +8,9 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import {
+  deleteUserFailed,
+  deleteUserStart,
+  deleteUserSuccess,
   updateFailure,
   updateStart,
   updateSuccess,
@@ -29,6 +32,23 @@ const Profile = () => {
       handleFileUpload(file);
     }
   }, [file]);
+
+  const handleDeleteUser = async () => {
+    try {
+      deleteUserStart();
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailed(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailed(error.message));
+    }
+  };
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -142,7 +162,12 @@ const Profile = () => {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete account</span>
+        <span
+          onClick={handleDeleteUser}
+          className="text-red-700 cursor-pointer"
+        >
+          Delete account
+        </span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       {error && <p className="text-sm text-center text-red-700">{error}</p>}
