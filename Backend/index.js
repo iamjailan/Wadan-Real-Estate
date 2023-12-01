@@ -5,6 +5,7 @@ dotenv.config();
 import authRouter from "./routes/AuthRoute.js";
 import userRouter from "./routes/UserRoute.js";
 import cookieParser from "cookie-parser";
+import listingRouter from "./routes/ListingRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ const PORT = 3579;
 // middleware of app
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/listing", listingRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
