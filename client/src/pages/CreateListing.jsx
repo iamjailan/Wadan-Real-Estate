@@ -17,7 +17,7 @@ const CreateListing = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [formData, setFormData] = React.useState({
-    imageUrls: [],
+    imageUrl: [],
     name: "",
     description: "",
     address: "",
@@ -34,7 +34,7 @@ const CreateListing = () => {
   console.log(formData);
 
   const handleUploadImage = () => {
-    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
+    if (files.length > 0 && files.length + formData.imageUrl.length < 7) {
       setLoading(true);
       setImageUploadError(false);
       const promises = [];
@@ -46,7 +46,7 @@ const CreateListing = () => {
         .then((urls) => {
           setFormData({
             ...formData,
-            imageUrls: formData.imageUrls.concat(urls),
+            imageUrl: formData.imageUrl.concat(urls),
           });
           setImageUploadError(false);
           setLoading(false);
@@ -90,7 +90,7 @@ const CreateListing = () => {
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
-      imageUrls: formData.imageUrls.filter((url, i) => i !== index),
+      imageUrl: formData.imageUrl.filter((url, i) => i !== index),
     });
   };
 
@@ -127,7 +127,7 @@ const CreateListing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formData.imageUrls.length < 1)
+      if (formData.imageUrl.length < 1)
         return setError("You must upload at least one image.");
       if (+formData.regularPrice < +formData.discountPrice)
         return setError("Discount price must be lower then regular price");
@@ -338,8 +338,8 @@ const CreateListing = () => {
           <p className="text-red-600 text-sm">
             {imageUploadError && imageUploadError}
           </p>
-          {formData.imageUrls &&
-            formData.imageUrls.map((url, index) => {
+          {formData.imageUrl &&
+            formData.imageUrl.map((url, index) => {
               return (
                 <div
                   className="flex justify-between p-3 border items-center"

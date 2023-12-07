@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -29,6 +29,8 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const [userUpdateIsSuccess, setUserUpdateIsSuccess] = React.useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListing, setUserListing] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -124,6 +126,38 @@ const Profile = () => {
     }
   };
 
+  const handleShowListing = async () => {
+    try {
+      setShowListingError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingError(true);
+        return;
+      }
+      setUserListing(data);
+      console.log(data);
+    } catch (error) {
+      setShowListingError(true);
+    }
+  };
+
+  const deleteListing = async (id) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      console.log(data);
+      setUserListing((prev) => prev.filter((listing) => listing._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -203,6 +237,45 @@ const Profile = () => {
           Your Information Updated
         </p>
       )}
+      <button onClick={handleShowListing} className="text-green-400 w-full">
+        Show listing
+      </button>
+      <p className="text-green-500 w-full">
+        {showListingError && "An error happened!"}
+      </p>
+      {userListing &&
+        userListing.length > 0 &&
+        userListing.map((listing) => {
+          return (
+            <div
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              key={listing._id}
+            >
+              <Link to={`/listings/${listing._id}`}>
+                <img
+                  className="h-16 w-16 object-contain"
+                  src={listing.imageUrl[0]}
+                  alt="listing cover"
+                />
+              </Link>
+              <Link
+                className="text-slate-700 font-semibold hover:underline truncate flex-1"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+              <div className="flex flex-col items-center">
+                <button
+                  className="text-red-700 uppercase"
+                  onClick={() => deleteListing(listing._id)}
+                >
+                  Delete
+                </button>
+                <button className="text-green-700 uppercase">Edit</button>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 };
