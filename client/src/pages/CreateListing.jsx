@@ -31,7 +31,6 @@ const CreateListing = () => {
     furnished: false,
   });
   const [imageUploadError, setImageUploadError] = React.useState(false);
-  console.log(formData);
 
   const handleUploadImage = () => {
     if (files.length > 0 && files.length + formData.imageUrl.length < 7) {

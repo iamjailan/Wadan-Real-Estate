@@ -136,7 +136,6 @@ const Profile = () => {
         return;
       }
       setUserListing(data);
-      console.log(data);
     } catch (error) {
       setShowListingError(true);
     }
@@ -151,7 +150,6 @@ const Profile = () => {
       if (data.success === false) {
         console.log(data.message);
       }
-      console.log(data);
       setUserListing((prev) => prev.filter((listing) => listing._id !== id));
     } catch (error) {
       console.log(error);
