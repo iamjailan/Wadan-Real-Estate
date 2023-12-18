@@ -237,11 +237,14 @@ const Profile = () => {
           Your Information Updated
         </p>
       )}
-      <button onClick={handleShowListing} className="text-green-400 w-full">
+      <button
+        onClick={handleShowListing}
+        className="text-green-500 text-lg font-semibold w-full"
+      >
         Show listing
       </button>
-      <p className="text-green-500 w-full">
-        {showListingError && "An error happened!"}
+      <p className="text-red-500 w-full text-lg text-center my-3">
+        {showListingError && "an error happened!"}
       </p>
       {userListing &&
         userListing.length > 0 &&
