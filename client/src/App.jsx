@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
-import About from "./pages/about";
+import About from "./pages/About";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
@@ -18,10 +18,10 @@ const App = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/about" element={<About />} />
           <Route path="/listing/:id" element={<Listing />} />
           <Route element={<PrivateRout />}>
             <Route path="/profile" element={<Profile />} />
